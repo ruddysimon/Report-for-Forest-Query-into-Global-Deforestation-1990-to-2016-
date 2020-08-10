@@ -57,3 +57,51 @@ select *
 from v_forestation
 where year = '2016' and total_area_sqkm between 1000000 and 1400000
 order by total_area_sqkm desc
+
+
+-- 2. REGIONAL OUTLOOK
+
+
+--  What was the percent forest of the entire world in 2016? Which region had the HIGHEST percent forest in 2016,
+--  and which had the LOWEST, to 2 decimal places?
+select * 
+from v_forestation
+where year = '2016' and country_name = 'World';
+
+
+with t1 as(select region,
+	   sum(forest_area_sqkm) as "total_forest_area_2016",
+	   sum(total_area_sqkm) as "total_land_area_2016"
+from v_forestation
+where year = '2016' and country_name <> 'World'
+group by region)
+select region,
+	   round(cast((total_forest_area_2016 / total_land_area_2016)*100 as numeric),2) as "percent_forest_2016"
+from t1
+group by 1,2
+order by 2 desc
+
+
+
+-- b. What was the percent forest of the entire world in 1990? Which region had the HIGHEST percent forest in 1990, 
+-- and which had the LOWEST, to 2 decimal places?
+select *
+from v_forestation
+where year = '1990' and country_name = 'World'
+
+
+with t1 as(select region,
+	   sum(forest_area_sqkm) as "total_forest_area_1990",
+	   sum(total_area_sqkm) as "total_land_area_1990"
+from v_forestation
+where year = '1990' and country_name <> 'World'
+group by region)
+select region,
+	   round(cast((total_forest_area_1990 / total_land_area_1990)*100 as numeric),2) as "percent_forest_1990"
+from t1
+group by 1,2
+order by 2 desc
+
+
+
+
