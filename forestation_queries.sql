@@ -203,5 +203,15 @@ where quartile_range = 'above 75 percentile'
 
 
 
+-- e. How many countries had a percent forestation higher than the United States in 2016?
+select country_name, region, percent_forest
+from v_forestation
+where year = 2016 and percent_forest > 
+									(select percent_forest
+									from v_forestation
+									where country_name = 'United States' and year = 2016)
+
+
+
 
 
