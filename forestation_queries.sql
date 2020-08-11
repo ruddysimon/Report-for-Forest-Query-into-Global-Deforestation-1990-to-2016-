@@ -141,6 +141,7 @@ limit 5;
 
 
 
+
 -- Top 5 Amount Decrease in Forest Area by Country, 1990 & 2016:
 select current_year.country_name, 
 	   r.region,
@@ -155,7 +156,9 @@ current_year.country_name <> 'World'
 order by 3;
 
 
--- Top 3 Percent Decrease in Forest Area by Country, 1990 & 2016:
+
+
+-- Top 5 Percent Decrease in Forest Area by Country, 1990 & 2016:
 select current_year.country_name,
 	   r.region,
 	  (current_year.forest_area_sqkm - previous_year.forest_area_sqkm) / (previous_year.forest_area_sqkm)*100 as "Percent_Difference"
