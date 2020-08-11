@@ -103,5 +103,75 @@ group by 1,2
 order by 2 desc
 
 
+-- COUNTRY-LEVEL DETAIL
+
+
+select current_year.country_name,(current_year.forest_area_sqkm - previous_year.forest_area_sqkm) as "Difference"
+from forest_area as "current_year"
+join forest_area as "previous_year"
+on (current_year.year = '2016' and previous_year.year = '1990') and current_year.country_name = previous_year.country_name
+where (current_year.forest_area_sqkm - previous_year.forest_area_sqkm) is not null
+order by 2 desc
+limit 2;
+
+
+
+-- Which 5 countries saw the largest amount decrease in forest area from 1990 to 2016? What was the difference in forest area for each?
+select current_year.country_name,
+	  (current_year.forest_area_sqkm - previous_year.forest_area_sqkm) as "Difference"
+from forest_area as "current_year"
+join forest_area as "previous_year"
+on (current_year.year = '2016' and previous_year.year = '1990') and current_year.country_name = previous_year.country_name
+where (current_year.forest_area_sqkm - previous_year.forest_area_sqkm) is not null
+order by 2 desc
+limit 5;
+
+
+
+
+-- Which 5 countries saw the largest percent decrease in forest area from 1990 to 2016? What was the percent change to 2 decimal places for each?
+select current_year.country_name ,
+	  (current_year.forest_area_sqkm - previous_year.forest_area_sqkm) / (previous_year.forest_area_sqkm)*100 as "Percent_Difference"
+from forest_area as "current_year"
+join forest_area as "previous_year"
+on (current_year.year = '2016' and previous_year.year = '1990') and current_year.country_name = previous_year.country_name
+where (current_year.forest_area_sqkm - previous_year.forest_area_sqkm) / (previous_year.forest_area_sqkm)*100 is not null
+order by 2 desc
+limit 5;
+
+
+
+-- Top 5 Amount Decrease in Forest Area by Country, 1990 & 2016:
+select current_year.country_name, 
+	   r.region,
+	  (current_year.forest_area_sqkm - previous_year.forest_area_sqkm) as "Difference"
+from forest_area as "current_year"
+join forest_area as "previous_year"
+on (current_year.year = '2016' and previous_year.year = '1990') and current_year.country_name = previous_year.country_name
+join regions as r
+on current_year.country_name = r.country_name and current_year.country_code = r.country_code
+where (current_year.forest_area_sqkm - previous_year.forest_area_sqkm) is not null and 
+current_year.country_name <> 'World'
+order by 3;
+
+
+-- Top 3 Percent Decrease in Forest Area by Country, 1990 & 2016:
+select current_year.country_name,
+	   r.region,
+	  (current_year.forest_area_sqkm - previous_year.forest_area_sqkm) / (previous_year.forest_area_sqkm)*100 as "Percent_Difference"
+from forest_area as "current_year"
+join forest_area as "previous_year"
+on (current_year.year = '2016' and previous_year.year = '1990') and current_year.country_name = previous_year.country_name
+join regions as r
+on current_year.country_name = r.country_name and current_year.country_code = r.country_code
+where (current_year.forest_area_sqkm - previous_year.forest_area_sqkm) / (previous_year.forest_area_sqkm)*100 is not null
+order by 3;
+
+
+
+
+
+
+
 
 
