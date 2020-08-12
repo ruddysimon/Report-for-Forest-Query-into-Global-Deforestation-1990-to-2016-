@@ -182,7 +182,7 @@ from
 				else 'above 75 percentile' end as "quartile_range"
 		from (select * 
 		from v_forestation
-		where year = '2016' and percent_forest is not null) as s1) as s2
+		where year = '2016' and percent_forest is not null and country_name <> 'World') as s1) as s2
 group by 1
 order by 1;
 
@@ -191,15 +191,16 @@ order by 1;
 
 -- d. List all of the countries that were in the 4th quartile (percent forest > 75%) in 2016.
 select s2.country_name
-from (select country_name,
+from (select country_name, percent_forest,
 	 	   case when percent_forest <= 25 then '0 to 25 percentile'
 				when percent_forest between 25 and 50 then '25 to 50 percentile'
 				when percent_forest between 50 and 75 then '50 to 75 percentile'
 				else 'above 75 percentile' end as "quartile_range"
 		from (select * 
 		from v_forestation
-		where year = '2016' and percent_forest is not null) as s1) as s2
+		where year = '2016' and percent_forest is not null and country_name <> 'World') as s1) as s2
 where quartile_range = 'above 75 percentile'
+
 
 
 
